@@ -22,12 +22,19 @@ const groceryItems = [
 ];
 
 function App() {
+  const [items, setItems] = useState(groceryItems)
+
+  function handleAddItem (item) {
+    console.log('item', item)
+    setItems([...items, item])
+  }
+
   return (
     <>
       <div className="app">
         <Header />
-        <Form />
-        <GroceryList />
+        <Form onAddItem={handleAddItem} />
+        <GroceryList items={ items } />
         <Footer />
       </div>
     </>
@@ -38,7 +45,7 @@ function Header () {
   return <h1>Belanjaku</h1>
 }
 
-function Form () {
+function Form ({onAddItem}) {
   const [name, setName] = useState('')
   const [quantity, setQuantity] = useState(1)
 
@@ -47,6 +54,7 @@ function Form () {
     if (!name) return
     const newItem = {name, quantity, checked: false, id: Date.now()}
     console.log('handlesubmit', newItem )
+    onAddItem(newItem)
     setName('')
     setQuantity(1)
   }
@@ -68,12 +76,12 @@ function Form () {
   )
 }
 
-function GroceryList () {
+function GroceryList ({items}) {
   return (
     <>
       <div className="list">
         <ul>
-          {groceryItems.map((item) => (
+          {items.map((item) => (
             <Item item={item} key={item.id} />
           ))}
         </ul>
