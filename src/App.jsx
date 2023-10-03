@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const groceryItems = [
   {
     id: 1,
@@ -37,19 +39,28 @@ function Header () {
 }
 
 function Form () {
+  const [name, setName] = useState('')
+  const [quantity, setQuantity] = useState(1)
+
+  function handleSubmit (e) {
+    e.preventDefault()
+    if (!name) return
+    const newItem = {name, quantity, checked: false, id: Date.now()}
+    console.log('handlesubmit', newItem )
+    setName('')
+    setQuantity(1)
+  }
+
+  const quantityNum = [...Array(20)].map((_, i) => (
+    <option value={ i + 1 } key={ i + 1 }>{ i+1 }</option>
+  ))
   return (
     <>
-      <form className="add-form">
+      <form className="add-form" onSubmit={ handleSubmit }>
         <h3>Sudah belanja apa aja ?</h3>
         <div>
-          <select>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-          <input type="text" placeholder="nama barang..." />
+          <select value={quantity} onChange={(e) => setQuantity(Number(e.target.value))}> {quantityNum} </select>
+          <input type="text" placeholder="nama barang..." value={name} onChange={(e) => setName(e.target.value)} />
         </div>
         <button>Tambah</button>
       </form>
