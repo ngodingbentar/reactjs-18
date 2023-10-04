@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-
-export default function Header ({author}) {
-  return <h1>React {author}.</h1>
+export default function Header() {
+  return <h1>Catatanku</h1>;
 }
